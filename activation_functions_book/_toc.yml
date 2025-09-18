@@ -4,6 +4,7 @@
 format: jb-book
 root: intro
 chapters:
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+- file: mathematical_foundations
+- file: activation_functions
+- file: practical_implementations
+
