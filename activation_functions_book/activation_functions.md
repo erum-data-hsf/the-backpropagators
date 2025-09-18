@@ -152,6 +152,8 @@ $f(x) = x$ if x > 0
 $f(x) = \alpha(e^{x}-1)$   if x < 0
 
 ```{code-cell} ipython3
+:tags: [hide-input] 
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -175,6 +177,8 @@ $f(x) = \lambda\alpha(e^x-1)$ if x<0
 $f(x) = \lambda x$ if x>0
 
 ```{code-cell} ipython3
+:tags: [hide-input] 
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -211,11 +215,13 @@ Mish exhibits a "self-regularizing" behavior attributed to a term in its first d
 $ f(x)=x * tanh(ln(1+e^x)) $
 
 ```{code-cell} ipython3
+:tags: [hide-input] 
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 def mish(x):
-    return x * np.tanh(np.ln(1+np.exp(x)))
+    return x * np.tanh(np.log(1+np.exp(x)))
 
 x = np.linspace(-10,10,100)
 plt.figure()
