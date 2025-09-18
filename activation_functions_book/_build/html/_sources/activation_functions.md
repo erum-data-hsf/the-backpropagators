@@ -15,24 +15,107 @@ kernelspec:
 
 ## sigmoid
 
+Maps real values to (0, 1) with an S-shaped curve:  
+
+$ \sigma(x)=\frac{1}{1+e^{-x}}$.
+
+Useful for probabilities in binary classification. Can saturate for large $|x|$ which slows learning due to small gradients.
+
 ```{code-cell} ipython3
+:tags: [hide-input] 
+
 import numpy as np
 import matplotlib.pyplot as plt
 
-x = np.linspace(0,1,100)
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+x = np.linspace(-6, 6, 1000)
 plt.figure()
-plt.plot(x,x*x)
+plt.plot(x, sigmoid(x))
+plt.title("Sigmoid")
+plt.xlabel("x")
+plt.ylabel("σ(x)")
+plt.grid(True)
 plt.show()
 ```
 
 
 ## relu
 
+Rectified Linear Unit: $\text{ReLU}(x)=\max(0,x)$.
+Simple, fast, and helps mitigate vanishing gradients for $x>0$. 
+
+Downsides: “dying ReLUs” where neurons stuck at $x<0$ output 0.
+
+```{code-cell} ipython3
+:tags: [hide-input] 
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def relu(x):
+    return np.maximum(0, x)
+
+plt.figure()
+plt.plot(x, relu(x))
+plt.title("ReLU")
+plt.xlabel("x")
+plt.ylabel("ReLU(x)")
+plt.grid(True)
+plt.show()
+```
 
 ## tanh
 
+Hyperbolic tangent squashes to $(-1,1)$: $\tanh(x)$.
+Zero-centered (often trains better than sigmoid). 
+
+Still saturates for large $|x|$ which can reduce gradients.
+
+```{code-cell} ipython3
+:tags: [hide-input] 
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.plot(x, np.tanh(x))
+plt.title("tanh")
+plt.xlabel("x")
+plt.ylabel("tanh(x)")
+plt.grid(True)
+plt.show()
+```
+
 
 ## step_function
+
+Heaviside step with threshold at 0: outputs 0 for $x<0$, 1 for $x\ge 0$.
+Historically used in perceptrons; not used for gradient-based learning because it’s non-differentiable and has zero gradient almost everywhere.
+
+
+```{code-cell} ipython3
+:tags: [hide-input] 
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def step_function(x):
+    y = np.zeros_like(x)
+    y[x >= 0] = 1.0
+    return y
+
+plt.figure()
+plt.plot(x, step_function(x))
+plt.title("Step Function (threshold = 0)")
+plt.xlabel("x")
+plt.ylabel("H(x)")
+plt.ylim(-0.1, 1.1)
+plt.grid(True)
+plt.show()
+```
+
 
 
 ## Softmax
@@ -53,6 +136,7 @@ def softmax(x):
     return e_x / e_x.sum()
 
 scores = [3.0, 1.0, 0.2]
+print(scores)
 print(softmax(scores))
 ```
 
@@ -80,7 +164,7 @@ X = np.linspace(-10,10,100)
 alpha = 2
 y = [elu(x, alpha) for x in X]
 plt.figure()
-plt.plot(x,y)
+plt.plot(X,y)
 plt.show()
 ```
 
@@ -94,17 +178,17 @@ $f(x) = \lambda x$ if x>0
 import numpy as np
 import matplotlib.pyplot as plt
 
-def selu(x, alpha, lambda):
+def selu(x, alpha, mylambda):
     if x < 0:
-        return lambda*alpha*(np.exp(x)-1)
-    return lambda*x
+        return mylambda*alpha*(np.exp(x)-1)
+    return mylambda*x
 
 X = np.linspace(-10,10,100)
 alpha = 1.6
-lambda = 1.1
-y = [selu(x, alpha, lambda) for x in X]
+mylambda = 1.1
+y = [selu(x, alpha, mylambda) for x in X]
 plt.figure()
-plt.plot(x,y)
+plt.plot(X,y)
 plt.show()
 ```
 
@@ -120,5 +204,22 @@ Drawbacks of SELU
 
 Mish exhibits a "self-regularizing" behavior attributed to a term in its first derivative
 
-$ f ( x ) = {\displaystyle f(x)=x\tanh {\big (} ln(1+e^x) {\big )}}$
+## Mish
+
+Mish exhibits a "self-regularizing" behavior attributed to a term in its first derivative
+
+$ f(x)=x * tanh(ln(1+e^x)) $
+
+```{code-cell} ipython3
+import numpy as np
+import matplotlib.pyplot as plt
+
+def mish(x):
+    return x * np.tanh(np.ln(1+np.exp(x)))
+
+x = np.linspace(-10,10,100)
+plt.figure()
+plt.plot(x,mish(x))
+plt.show()
+```
 
