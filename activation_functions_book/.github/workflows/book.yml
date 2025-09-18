@@ -30,7 +30,7 @@ jobs:
       - name: Build Jupyter Book (treat warnings as errors)
         working-directory: activation_functions_book
         run: |
-          jupyter-book build .
+          jupyter-book build -W --keep-going .
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

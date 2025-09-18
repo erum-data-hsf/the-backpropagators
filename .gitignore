@@ -1,0 +1,4 @@
+# Content of .gitignore
+activation_functions_book/_build/
+activation_functions_book/__pycache__/
+
