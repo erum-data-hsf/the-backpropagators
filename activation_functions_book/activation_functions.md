@@ -204,5 +204,22 @@ Drawbacks of SELU
 
 Mish exhibits a "self-regularizing" behavior attributed to a term in its first derivative
 
-$ f ( x ) = {\displaystyle f(x)=x\tanh {\big (} ln(1+e^x) {\big )}}$
+## Mish
+
+Mish exhibits a "self-regularizing" behavior attributed to a term in its first derivative
+
+$ f(x)=x * tanh(ln(1+e^x)) $
+
+```{code-cell} ipython3
+import numpy as np
+import matplotlib.pyplot as plt
+
+def mish(x):
+    return x * np.tanh(np.ln(1+np.exp(x)))
+
+x = np.linspace(-10,10,100)
+plt.figure()
+plt.plot(x,mish(x))
+plt.show()
+```
 
