@@ -72,12 +72,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def elu(x, alpha):
-    return alpha*(np.exp(x)-1)
+    if x < 0:
+        return alpha*(np.exp(x)-1)
+    return x
 
-x = np.linspace(-10,10,100)
+X = np.linspace(-10,10,100)
 alpha = 2
+y = [elu(x, alpha) for x in X]
 plt.figure()
-plt.plot(x,elu(x))
+plt.plot(x,y)
 plt.show()
 ```
 
@@ -91,11 +94,17 @@ $f(x) = \lambda x$ if x>0
 import numpy as np
 import matplotlib.pyplot as plt
 
-x = np.linspace(-10,10,100)
+def selu(x, alpha, lambda):
+    if x < 0:
+        return lambda*alpha*(np.exp(x)-1)
+    return lambda*x
+
+X = np.linspace(-10,10,100)
 alpha = 1.6
 lambda = 1.1
+y = [selu(x, alpha, lambda) for x in X]
 plt.figure()
-plt.plot(x,alpha*np.exp(x)-1)
+plt.plot(x,y)
 plt.show()
 ```
 
